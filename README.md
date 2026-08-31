@@ -2,6 +2,15 @@
 
 Scene Background is an Owlbear Rodeo extension that lets the GM choose a custom color for the background surrounding a Scene. The selected color is shared automatically with every participant in the Room.
 
+## Installation
+
+1. Add a custom extension in Owlbear Rodeo using this manifest URL:
+   `https://demonrider0.github.io/owlbear-scene-background/manifest.json`
+2. Enable Scene Background in the Room.
+3. Open the extension to choose a background color. Only the GM can change or restore it.
+
+Every participant in the Room receives the same background configuration automatically. Players do not need to install Node.js or run anything locally.
+
 ## Features
 
 - GM-controlled background color.

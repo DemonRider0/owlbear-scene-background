@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "manifest_version": 1,
   "description": "GM-controlled background color shared across an Owlbear Rodeo room.",
+  "homepage_url": "https://github.com/DemonRider0/owlbear-scene-background",
   "icon": "./icon.svg",
   "background_url": "./background.html",
   "action": {
