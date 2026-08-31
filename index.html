@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Scene Background</title>
+  </head>
+  <body>
+    <main>
+      <h1>Background Color</h1>
+      <section id="gm-controls" hidden>
+        <form id="background-form" novalidate>
+          <div class="color-row">
+            <label for="color-picker">Color</label>
+            <input id="color-picker" type="color" value="#b00020" disabled />
+            <input
+              id="hex-color"
+              type="text"
+              value="#B00020"
+              maxlength="7"
+              autocomplete="off"
+              spellcheck="false"
+              aria-label="Hex color"
+              disabled
+            />
+          </div>
+          <div id="preview" class="preview" aria-label="Color preview"></div>
+          <p id="validation-error" class="error" role="alert"></p>
+          <div class="actions">
+            <button id="apply" type="submit" disabled>Apply</button>
+            <button id="restore" type="button" class="secondary" disabled>
+              Restore Owlbear Default
+            </button>
+          </div>
+        </form>
+      </section>
+      <section id="player-view" hidden>
+        <p>Controlled by GM</p>
+        <p id="current-background">Using Owlbear default</p>
+      </section>
+      <p id="status" class="status" role="status">Connecting to Owlbear…</p>
+    </main>
+    <script type="module" src="./src/ui.ts"></script>
+  </body>
+</html>

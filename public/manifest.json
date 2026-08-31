@@ -1,0 +1,15 @@
+{
+  "name": "Scene Background",
+  "version": "1.0.0",
+  "manifest_version": 1,
+  "description": "GM-controlled background color shared across an Owlbear Rodeo room.",
+  "icon": "./icon.svg",
+  "background_url": "./background.html",
+  "action": {
+    "title": "Scene Background",
+    "icon": "./icon.svg",
+    "popover": "./index.html",
+    "height": 240,
+    "width": 340
+  }
+}

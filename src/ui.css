@@ -1,0 +1,108 @@
+:root {
+  color: #f5f5f5;
+  background: #24252d;
+  font-family: Inter, ui-sans-serif, system-ui, sans-serif;
+  font-synthesis: none;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+}
+
+main {
+  padding: 12px;
+}
+
+h1 {
+  margin: 0 0 10px;
+  font-size: 18px;
+}
+
+.color-row {
+  display: grid;
+  grid-template-columns: auto 44px 1fr;
+  gap: 10px;
+  align-items: center;
+}
+
+input {
+  min-width: 0;
+  height: 36px;
+  border: 1px solid #60636f;
+  border-radius: 6px;
+  background: #30313a;
+  color: inherit;
+  font: inherit;
+}
+
+input[type="color"] {
+  width: 44px;
+  padding: 3px;
+  cursor: pointer;
+}
+
+input[type="text"] {
+  padding: 0 10px;
+  text-transform: uppercase;
+}
+
+input[aria-invalid="true"] {
+  border-color: #ff6b6b;
+}
+
+.preview {
+  height: 24px;
+  margin-top: 8px;
+  border: 1px solid #747782;
+  border-radius: 6px;
+}
+
+.error,
+.status {
+  min-height: 16px;
+  margin: 6px 0;
+  font-size: 13px;
+}
+
+.error {
+  color: #ff9a9a;
+}
+
+.status {
+  color: #c9cad1;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+#player-view p {
+  margin: 8px 0;
+}
+
+button {
+  min-height: 36px;
+  padding: 0 12px;
+  border: 0;
+  border-radius: 6px;
+  background: #8b5cf6;
+  color: #fff;
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+button.secondary {
+  background: #444650;
+}
+
+button:disabled {
+  cursor: wait;
+  opacity: 0.55;
+}
