@@ -13,6 +13,11 @@ if (siteUrl.protocol !== "https:") {
 if (!siteUrl.pathname.endsWith("/")) {
   siteUrl.pathname += "/";
 }
+if (siteUrl.pathname !== "/owlbear-scene-background/") {
+  throw new Error(
+    `Unexpected GitHub Project Pages path: ${siteUrl.pathname}`,
+  );
+}
 
 async function listFiles(directory, prefix = "") {
   const entries = await readdir(directory, { withFileTypes: true });
@@ -53,24 +58,44 @@ const manifestResponse = await fetchOk(
 );
 const manifest = JSON.parse(await manifestResponse.text());
 const manifestUrl = new URL("manifest.json", siteUrl);
-const references = [
-  manifest.icon,
-  manifest.background_url,
-  manifest.action?.icon,
-  manifest.action?.popover,
-];
+const references = {
+  icon: {
+    value: manifest.icon,
+    expectedPath: "/owlbear-scene-background/icon.svg",
+  },
+  background_url: {
+    value: manifest.background_url,
+    expectedPath: "/owlbear-scene-background/background.html",
+  },
+  "action.icon": {
+    value: manifest.action?.icon,
+    expectedPath: "/owlbear-scene-background/icon.svg",
+  },
+  "action.popover": {
+    value: manifest.action?.popover,
+    expectedPath: "/owlbear-scene-background/index.html",
+  },
+};
 
-for (const value of references) {
-  if (typeof value !== "string" || !value.startsWith("./")) {
-    throw new Error(`Invalid relative manifest URL: ${String(value)}`);
+for (const [label, reference] of Object.entries(references)) {
+  const { value, expectedPath } = reference;
+  if (typeof value !== "string" || value.startsWith("./")) {
+    throw new Error(`${label} uses an invalid production path: ${String(value)}`);
+  }
+  if (value !== expectedPath) {
+    throw new Error(`${label} must be ${expectedPath}, received ${value}`);
   }
   const resolvedUrl = new URL(value, manifestUrl);
+  const expectedUrl = new URL(expectedPath, siteUrl.origin);
   if (
-    resolvedUrl.origin !== siteUrl.origin ||
+    resolvedUrl.href !== expectedUrl.href ||
     !resolvedUrl.pathname.startsWith(siteUrl.pathname)
   ) {
-    throw new Error(`Manifest URL escapes the project subpath: ${value}`);
+    throw new Error(
+      `${label} resolves to ${resolvedUrl.href}, expected ${expectedUrl.href}`,
+    );
   }
+  await fetchOk(resolvedUrl, label);
 }
 
 for (const relativePath of files) {

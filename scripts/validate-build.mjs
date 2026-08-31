@@ -18,7 +18,7 @@ async function assertFileExists(relativePath) {
   assert((await stat(filePath)).isFile(), `Missing build file: ${relativePath}`);
 }
 
-function resolveSiteFile(value, sourceUrl, label) {
+function resolveHtmlFile(value, sourceUrl, label) {
   assert(typeof value === "string", `${label} must be a string.`);
   assert(value.startsWith("./"), `${label} must use a ./ relative URL.`);
 
@@ -34,6 +34,29 @@ function resolveSiteFile(value, sourceUrl, label) {
   );
 }
 
+function resolveManifestFile(value, label, expectedPath) {
+  assert(typeof value === "string", `${label} must be a string.`);
+  assert(
+    !value.startsWith("./"),
+    `${label} must not use a ./ path in the production manifest.`,
+  );
+  assert(
+    value === expectedPath,
+    `${label} must be ${expectedPath}, received ${value}.`,
+  );
+
+  const resolvedUrl = new URL(value, manifestUrl);
+  const expectedUrl = new URL(expectedPath, projectPageUrl.origin);
+  assert(
+    resolvedUrl.href === expectedUrl.href,
+    `${label} resolves to ${resolvedUrl.href}, expected ${expectedUrl.href}.`,
+  );
+
+  return decodeURIComponent(
+    resolvedUrl.pathname.slice(projectPageUrl.pathname.length),
+  );
+}
+
 async function validateHtml(relativePath) {
   const html = await readFile(path.join(distDirectory, relativePath), "utf8");
   const htmlUrl = new URL(relativePath, projectPageUrl);
@@ -42,7 +65,7 @@ async function validateHtml(relativePath) {
   for (const match of references) {
     const value = match[1];
     assert(value, `Empty asset URL in ${relativePath}.`);
-    const assetPath = resolveSiteFile(
+    const assetPath = resolveHtmlFile(
       value,
       htmlUrl,
       `${relativePath} asset ${value}`,
@@ -73,14 +96,28 @@ const manifest = JSON.parse(
   await readFile(path.join(distDirectory, "manifest.json"), "utf8"),
 );
 const manifestReferences = {
-  icon: manifest.icon,
-  background_url: manifest.background_url,
-  "action.icon": manifest.action?.icon,
-  "action.popover": manifest.action?.popover,
+  icon: {
+    value: manifest.icon,
+    expectedPath: "/owlbear-scene-background/icon.svg",
+  },
+  background_url: {
+    value: manifest.background_url,
+    expectedPath: "/owlbear-scene-background/background.html",
+  },
+  "action.icon": {
+    value: manifest.action?.icon,
+    expectedPath: "/owlbear-scene-background/icon.svg",
+  },
+  "action.popover": {
+    value: manifest.action?.popover,
+    expectedPath: "/owlbear-scene-background/index.html",
+  },
 };
 
-for (const [label, value] of Object.entries(manifestReferences)) {
-  await assertFileExists(resolveSiteFile(value, manifestUrl, label));
+for (const [label, reference] of Object.entries(manifestReferences)) {
+  await assertFileExists(
+    resolveManifestFile(reference.value, label, reference.expectedPath),
+  );
 }
 
 await validateHtml("index.html");
@@ -93,5 +130,5 @@ for (const relativePath of await listFiles(distDirectory)) {
 }
 
 console.info(
-  "Build paths are valid for /owlbear-scene-background/ and all referenced files exist.",
+  "Manifest and build paths resolve explicitly under /owlbear-scene-background/.",
 );
