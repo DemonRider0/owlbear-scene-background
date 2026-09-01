@@ -11,7 +11,7 @@
     "title": "Fundo da Cena",
     "icon": "/owlbear-scene-background/icon.svg",
     "popover": "/owlbear-scene-background/index.html",
-    "height": 240,
+    "height": 280,
     "width": 340
   }
 }
