@@ -1,60 +1,64 @@
-# Scene Background
+# Fundo da Cena
 
-Scene Background is an Owlbear Rodeo extension that lets the GM choose a custom color for the background surrounding a Scene. The selected color is shared automatically with every participant in the Room.
+Fundo da Cena é uma extensão para Owlbear Rodeo que permite ao GM escolher uma cor personalizada para o fundo ao redor da cena. A cor é compartilhada automaticamente com todos os participantes da sala.
 
-## Installation
+## Recursos
 
-1. Add a custom extension in Owlbear Rodeo using this manifest URL:
-   `https://demonrider0.github.io/owlbear-scene-background/manifest.json`
-2. Enable Scene Background in the Room.
-3. Open the extension to choose a background color. Only the GM can change or restore it.
+- Cor de fundo controlada pelo GM.
+- Sincronização automática com todos os participantes da sala.
+- Configuração persistente por sala.
+- Mesma cor de fundo ao trocar de cena.
+- Restauração do fundo padrão do Owlbear.
+- Seletor de cor e campo hexadecimal editável no formato `#RRGGBB`.
+- Sem backend, análise de uso, rastreamento ou integrações com serviços externos.
 
-Every participant in the Room receives the same background configuration automatically. Players do not need to install Node.js or run anything locally.
+## Como funciona
 
-## Features
+A extensão armazena uma pequena configuração com apenas `enabled` e `color` nos metadados da sala (Room Metadata). Somente o GM pode atualizá-la.
 
-- GM-controlled background color.
-- Automatic synchronization for all Room participants.
-- Persistent configuration per Room.
-- Consistent background when switching Scenes.
-- Restore Owlbear Default action.
-- Color picker and editable `#RRGGBB` value.
-- No backend or external services.
+Os Effects do Owlbear são locais (Local Only), portanto os itens de Effect não são sincronizados. Cada cliente lê a configuração compartilhada e cria seu próprio Effect local do tipo `VIEWPORT`. A extensão sincroniza a configuração, não os itens de Effect.
 
-## How It Works
+## Instalação
 
-The extension stores a small configuration containing only `enabled` and `color` in Owlbear Rodeo Room Metadata. Only the GM can update it.
+1. Na área de gerenciamento de extensões do Owlbear Rodeo, adicione uma extensão personalizada usando esta URL de manifest:
+   [https://demonrider0.github.io/owlbear-scene-background/manifest.json](https://demonrider0.github.io/owlbear-scene-background/manifest.json)
+2. Habilite Fundo da Cena na sala.
+3. Abra a extensão e escolha a cor desejada. Somente o GM pode aplicar uma cor ou restaurar o padrão do Owlbear.
 
-Owlbear Effects are Local Only, so Effect items are not synchronized. Each client reads the shared configuration and creates its own local `VIEWPORT` Effect. The extension synchronizes the configuration, not Effect items.
+Todos os participantes da sala recebem automaticamente a mesma configuração. Os jogadores não precisam instalar Node.js, executar um servidor local ou instalar a extensão pela Extension Store.
 
-## Development
+## Desenvolvimento
 
-Install dependencies and start the local development server:
+Instale as dependências e inicie o servidor local de desenvolvimento:
 
 ```sh
 npm install
 npm run dev
 ```
 
-Add `http://127.0.0.1:5173/manifest.json` as a local extension manifest in Owlbear Rodeo. If Vite selects a different port, use the manifest URL shown in its terminal output.
-
-Run the project checks and production build with:
+Execute as verificações e gere o build de produção:
 
 ```sh
 npm run typecheck
 npm run lint
 npm run build
+npm run validate:build
 ```
 
-The build output is written to `dist/` and is not committed.
+O build é gerado em `dist/` e não é versionado.
 
-## Technical Notes
+## Notas técnicas
 
-- Scene Background uses the Owlbear Rodeo Effect API.
-- The official Owlbear Rodeo documentation currently marks the Effect API as Experimental.
-- Effects are Local Only.
-- The extension therefore depends on experimental API behavior and may require adaptation if that API changes in the future.
+- Fundo da Cena utiliza a Effect API do Owlbear Rodeo.
+- A documentação oficial do Owlbear Rodeo classifica atualmente a Effect API como Experimental.
+- Effects são locais (Local Only).
+- Cada cliente cria seu próprio Effect local a partir da configuração compartilhada da sala.
+- Mudanças futuras nessa API experimental podem exigir adaptações na extensão.
 
-## Privacy
+## Privacidade
 
-Scene Background sends no data to an external server and includes no analytics or tracking. Only the `enabled` state and selected `color` are stored in Owlbear Rodeo Room Metadata.
+A extensão não envia dados de configuração para servidores externos. Não há análise de uso nem rastreamento. Somente `enabled` e `color` são armazenados como uma pequena configuração nos metadados da sala do Owlbear Rodeo.
+
+## Autoria
+
+Desenvolvido por DemonRider.

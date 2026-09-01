@@ -82,7 +82,7 @@ function buildBackgroundEffect(color: string): Effect {
 
   return buildEffect()
     .id(EFFECT_ID)
-    .name("Scene Background Color")
+    .name("Cor de Fundo da Cena")
     .effectType("VIEWPORT")
     .sksl(SOLID_COLOR_SHADER)
     .uniforms([{ name: COLOR_UNIFORM, value: hexToVector(color) }])
@@ -104,7 +104,7 @@ async function getManagedEffects(): Promise<Effect[]> {
 export function applyBackgroundEffect(colorInput: string): Promise<void> {
   const color = normalizeHexColor(colorInput);
   if (!color) {
-    return Promise.reject(new Error("Use a color in #RRGGBB format."));
+    return Promise.reject(new Error("Use uma cor no formato #RRGGBB."));
   }
 
   return enqueue(async () => {

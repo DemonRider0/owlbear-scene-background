@@ -1,13 +1,14 @@
 {
-  "name": "Scene Background",
+  "name": "Fundo da Cena",
   "version": "1.0.0",
   "manifest_version": 1,
-  "description": "GM-controlled background color shared across an Owlbear Rodeo room.",
+  "description": "Permite ao GM definir uma cor de fundo compartilhada para a sala no Owlbear Rodeo.",
+  "author": "DemonRider",
   "homepage_url": "https://github.com/DemonRider0/owlbear-scene-background",
   "icon": "/owlbear-scene-background/icon.svg",
   "background_url": "/owlbear-scene-background/background.html",
   "action": {
-    "title": "Scene Background",
+    "title": "Fundo da Cena",
     "icon": "/owlbear-scene-background/icon.svg",
     "popover": "/owlbear-scene-background/index.html",
     "height": 240,

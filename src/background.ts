@@ -53,9 +53,9 @@ function receiveRoomMetadata(metadata: Metadata): void {
 async function reportError(error: unknown): Promise<void> {
   const detail = error instanceof Error ? error.message : String(error);
   try {
-    await OBR.notification.show(`Scene Background: ${detail}`, "ERROR");
+    await OBR.notification.show(`Fundo da Cena: ${detail}`, "ERROR");
   } catch {
-    // The host may already be unavailable while the background iframe unloads.
+    // O host pode estar indisponível enquanto o iframe de background é encerrado.
   }
 }
 

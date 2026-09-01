@@ -2,7 +2,8 @@
   "name": "owlbear-scene-background",
   "private": true,
   "version": "1.0.0",
-  "description": "GM-controlled scene background color for Owlbear Rodeo.",
+  "description": "Cor de fundo da cena controlada pelo GM para o Owlbear Rodeo.",
+  "author": "DemonRider",
   "type": "module",
   "scripts": {
     "dev": "vite --configLoader runner --host 127.0.0.1",

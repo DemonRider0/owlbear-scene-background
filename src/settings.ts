@@ -38,11 +38,11 @@ export async function setRoomBackgroundSettings(
 ): Promise<RoomBackgroundSettings> {
   const color = normalizeHexColor(settings.color);
   if (!color) {
-    throw new Error("Use a color in #RRGGBB format.");
+    throw new Error("Use uma cor no formato #RRGGBB.");
   }
 
   if ((await OBR.player.getRole()) !== "GM") {
-    throw new Error("Only the GM can change the room background.");
+    throw new Error("Apenas o GM pode alterar o fundo da sala.");
   }
 
   const normalizedSettings: RoomBackgroundSettings = {

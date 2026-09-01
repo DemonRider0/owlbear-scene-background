@@ -1,17 +1,17 @@
 <!doctype html>
-<html lang="en">
+<html lang="pt-BR">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Scene Background</title>
+    <title>Fundo da Cena</title>
   </head>
   <body>
     <main>
-      <h1>Background Color</h1>
+      <h1>Cor de Fundo</h1>
       <section id="gm-controls" hidden>
         <form id="background-form" novalidate>
           <div class="color-row">
-            <label for="color-picker">Color</label>
+            <label for="color-picker">Cor</label>
             <input id="color-picker" type="color" value="#b00020" disabled />
             <input
               id="hex-color"
@@ -20,25 +20,29 @@
               maxlength="7"
               autocomplete="off"
               spellcheck="false"
-              aria-label="Hex color"
+              aria-label="Cor hexadecimal"
               disabled
             />
           </div>
-          <div id="preview" class="preview" aria-label="Color preview"></div>
+          <div
+            id="preview"
+            class="preview"
+            aria-label="Pré-visualização da cor"
+          ></div>
           <p id="validation-error" class="error" role="alert"></p>
           <div class="actions">
-            <button id="apply" type="submit" disabled>Apply</button>
+            <button id="apply" type="submit" disabled>Aplicar</button>
             <button id="restore" type="button" class="secondary" disabled>
-              Restore Owlbear Default
+              Restaurar padrão do Owlbear
             </button>
           </div>
         </form>
       </section>
       <section id="player-view" hidden>
-        <p>Controlled by GM</p>
-        <p id="current-background">Using Owlbear default</p>
+        <p>Controlado pelo GM</p>
+        <p id="current-background">Usando o padrão do Owlbear</p>
       </section>
-      <p id="status" class="status" role="status">Connecting to Owlbear…</p>
+      <p id="status" class="status" role="status">Conectando ao Owlbear…</p>
     </main>
     <script type="module" src="./src/ui.ts"></script>
   </body>

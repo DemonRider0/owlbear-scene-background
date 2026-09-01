@@ -3,19 +3,19 @@ import path from "node:path";
 
 const deploymentUrl = process.argv[2];
 if (!deploymentUrl) {
-  throw new Error("Pass the deployed GitHub Pages URL as the first argument.");
+  throw new Error("Informe a URL publicada no GitHub Pages como primeiro argumento.");
 }
 
 const siteUrl = new URL(deploymentUrl);
 if (siteUrl.protocol !== "https:") {
-  throw new Error("The deployed site must use HTTPS.");
+  throw new Error("O site publicado deve usar HTTPS.");
 }
 if (!siteUrl.pathname.endsWith("/")) {
   siteUrl.pathname += "/";
 }
 if (siteUrl.pathname !== "/owlbear-scene-background/") {
   throw new Error(
-    `Unexpected GitHub Project Pages path: ${siteUrl.pathname}`,
+    `Path inesperado do GitHub Project Pages: ${siteUrl.pathname}`,
   );
 }
 
@@ -40,12 +40,12 @@ async function listFiles(directory, prefix = "") {
 async function fetchOk(url, label) {
   const response = await fetch(url);
   if (!response.ok) {
-    throw new Error(`${label} returned HTTP ${response.status}: ${url}`);
+    throw new Error(`${label} retornou HTTP ${response.status}: ${url}`);
   }
   return response;
 }
 
-await fetchOk(siteUrl, "Site root");
+await fetchOk(siteUrl, "Raiz do site");
 
 const files = await listFiles(path.resolve("dist"));
 for (const relativePath of files) {
@@ -80,10 +80,10 @@ const references = {
 for (const [label, reference] of Object.entries(references)) {
   const { value, expectedPath } = reference;
   if (typeof value !== "string" || value.startsWith("./")) {
-    throw new Error(`${label} uses an invalid production path: ${String(value)}`);
+    throw new Error(`${label} usa um path de produção inválido: ${String(value)}`);
   }
   if (value !== expectedPath) {
-    throw new Error(`${label} must be ${expectedPath}, received ${value}`);
+    throw new Error(`${label} deve ser ${expectedPath}; recebido: ${value}`);
   }
   const resolvedUrl = new URL(value, manifestUrl);
   const expectedUrl = new URL(expectedPath, siteUrl.origin);
@@ -92,7 +92,7 @@ for (const [label, reference] of Object.entries(references)) {
     !resolvedUrl.pathname.startsWith(siteUrl.pathname)
   ) {
     throw new Error(
-      `${label} resolves to ${resolvedUrl.href}, expected ${expectedUrl.href}`,
+      `${label} resolve para ${resolvedUrl.href}; esperado: ${expectedUrl.href}`,
     );
   }
   await fetchOk(resolvedUrl, label);
@@ -101,8 +101,8 @@ for (const [label, reference] of Object.entries(references)) {
 for (const relativePath of files) {
   const localContent = await readFile(path.join("dist", relativePath), "utf8");
   if (/localhost|127\.0\.0\.1|[A-Z]:\\/i.test(localContent)) {
-    throw new Error(`${relativePath} contains a local-only reference.`);
+    throw new Error(`${relativePath} contém uma referência exclusivamente local.`);
   }
 }
 
-console.info(`Deployment validated: ${siteUrl}`);
+console.info(`Publicação validada: ${siteUrl}`);

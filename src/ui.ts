@@ -12,7 +12,7 @@ import "./ui.css";
 function getRequiredElement<T extends Element>(selector: string): T {
   const element = document.querySelector<T>(selector);
   if (!element) {
-    throw new Error(`Required UI element not found: ${selector}`);
+    throw new Error(`Elemento obrigatório da interface não encontrado: ${selector}`);
   }
   return element;
 }
@@ -51,7 +51,7 @@ function readValidColor(): string | null {
   const color = normalizeHexColor(hexInput.value);
   if (!color) {
     hexInput.setAttribute("aria-invalid", "true");
-    validationError.textContent = "Use a color in #RRGGBB format.";
+    validationError.textContent = "Use uma cor no formato #RRGGBB.";
     return null;
   }
 
@@ -70,12 +70,12 @@ function render(): void {
   restoreButton.disabled = busy || !isGm;
 
   const description = currentSettings?.enabled
-    ? `Current: ${currentSettings.color}`
-    : "Using Owlbear default";
+    ? `Atual: ${currentSettings.color}`
+    : "Usando o padrão do Owlbear";
   currentBackground.textContent = description;
 
   if (currentRole === null) {
-    status.textContent = "Connecting to Owlbear…";
+    status.textContent = "Conectando ao Owlbear…";
   } else if (!busy) {
     status.textContent = isGm ? description : "";
   }
@@ -132,10 +132,10 @@ form.addEventListener("submit", (event) => {
   }
 
   setBusy(true);
-  status.textContent = "Updating room background…";
+  status.textContent = "Atualizando o fundo da sala…";
   void setRoomBackgroundSettings({ enabled: true, color })
     .then(() => {
-      status.textContent = `Published ${color}.`;
+      status.textContent = `Cor ${color} publicada.`;
     })
     .catch(showError)
     .finally(() => setBusy(false));
@@ -145,10 +145,10 @@ restoreButton.addEventListener("click", () => {
   const color = currentSettings?.color ?? DEFAULT_COLOR;
 
   setBusy(true);
-  status.textContent = "Restoring Owlbear default…";
+  status.textContent = "Restaurando o padrão do Owlbear…";
   void setRoomBackgroundSettings({ enabled: false, color })
     .then(() => {
-      status.textContent = "Owlbear default published.";
+      status.textContent = "Padrão do Owlbear restaurado.";
     })
     .catch(showError)
     .finally(() => setBusy(false));

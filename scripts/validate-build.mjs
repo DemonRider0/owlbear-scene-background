@@ -15,18 +15,18 @@ function assert(condition, message) {
 
 async function assertFileExists(relativePath) {
   const filePath = path.join(distDirectory, relativePath);
-  assert((await stat(filePath)).isFile(), `Missing build file: ${relativePath}`);
+  assert((await stat(filePath)).isFile(), `Arquivo ausente no build: ${relativePath}`);
 }
 
 function resolveHtmlFile(value, sourceUrl, label) {
-  assert(typeof value === "string", `${label} must be a string.`);
-  assert(value.startsWith("./"), `${label} must use a ./ relative URL.`);
+  assert(typeof value === "string", `${label} deve ser um texto.`);
+  assert(value.startsWith("./"), `${label} deve usar uma URL relativa com ./`);
 
   const resolvedUrl = new URL(value, sourceUrl);
   assert(
     resolvedUrl.origin === projectPageUrl.origin &&
       resolvedUrl.pathname.startsWith(projectPageUrl.pathname),
-    `${label} escapes the GitHub Project Pages subpath.`,
+    `${label} escapa do subpath do GitHub Project Pages.`,
   );
 
   return decodeURIComponent(
@@ -35,21 +35,21 @@ function resolveHtmlFile(value, sourceUrl, label) {
 }
 
 function resolveManifestFile(value, label, expectedPath) {
-  assert(typeof value === "string", `${label} must be a string.`);
+  assert(typeof value === "string", `${label} deve ser um texto.`);
   assert(
     !value.startsWith("./"),
-    `${label} must not use a ./ path in the production manifest.`,
+    `${label} não pode usar um path ./ no manifest de produção.`,
   );
   assert(
     value === expectedPath,
-    `${label} must be ${expectedPath}, received ${value}.`,
+    `${label} deve ser ${expectedPath}; recebido: ${value}.`,
   );
 
   const resolvedUrl = new URL(value, manifestUrl);
   const expectedUrl = new URL(expectedPath, projectPageUrl.origin);
   assert(
     resolvedUrl.href === expectedUrl.href,
-    `${label} resolves to ${resolvedUrl.href}, expected ${expectedUrl.href}.`,
+    `${label} resolve para ${resolvedUrl.href}; esperado: ${expectedUrl.href}.`,
   );
 
   return decodeURIComponent(
@@ -64,7 +64,7 @@ async function validateHtml(relativePath) {
 
   for (const match of references) {
     const value = match[1];
-    assert(value, `Empty asset URL in ${relativePath}.`);
+    assert(value, `URL de asset vazia em ${relativePath}.`);
     const assetPath = resolveHtmlFile(
       value,
       htmlUrl,
@@ -125,10 +125,10 @@ await validateHtml("background.html");
 
 for (const relativePath of await listFiles(distDirectory)) {
   const content = await readFile(path.join(distDirectory, relativePath), "utf8");
-  assert(!/localhost|127\.0\.0\.1/i.test(content), `${relativePath} contains a local URL.`);
-  assert(!/[A-Z]:\\/i.test(content), `${relativePath} contains a Windows path.`);
+  assert(!/localhost|127\.0\.0\.1/i.test(content), `${relativePath} contém uma URL local.`);
+  assert(!/[A-Z]:\\/i.test(content), `${relativePath} contém um path do Windows.`);
 }
 
 console.info(
-  "Manifest and build paths resolve explicitly under /owlbear-scene-background/.",
+  "O manifest e o build resolvem explicitamente sob /owlbear-scene-background/.",
 );
