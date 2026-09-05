@@ -1,7 +1,7 @@
 {
   "name": "owlbear-scene-background",
   "private": true,
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Cor de fundo da cena controlada pelo GM para o Owlbear Rodeo.",
   "author": "DemonRider",
   "type": "module",

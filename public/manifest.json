@@ -1,6 +1,6 @@
 {
   "name": "Fundo da Cena",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "manifest_version": 1,
   "description": "Permite ao GM definir uma cor de fundo compartilhada para a sala no Owlbear Rodeo.",
   "author": "DemonRider",
